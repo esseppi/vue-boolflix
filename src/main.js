@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
+import LangFlag from 'vue-lang-code-flags';
+
+Vue.component('lang-flag', LangFlag);
 
 Vue.config.productionTip = false;
 

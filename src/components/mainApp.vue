@@ -3,7 +3,7 @@
     <v-row no-gutters>
       <v-col v-for="(film, index) in filmList" :key="index">
         <v-card
-          v-show="film.image && film.title"
+          v-show="film.image"
           :loading="loading"
           class="mx-auto my-12"
           max-width="374"
@@ -39,7 +39,7 @@
 
             <div class="my-4 text-subtitle-1">{{ film.release_date }}</div>
             <div>{{ film.originalTitle }}</div>
-            <div>{{ film.originalLanguage }}</div>
+            <lang-flag :iso="film.originalLanguage" :squared="false" />
 
             <!-- <div class="card-text">
             {{ film.overview }}

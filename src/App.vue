@@ -40,7 +40,7 @@
     </v-app-bar>
 
     <v-main>
-      <mainApp :filmList="filmList" />
+      <mainApp :filmList="filmList" :search="filmList" />
     </v-main>
   </v-app>
 </template>
@@ -71,6 +71,7 @@ export default {
         .then((response) => {
           this.filmList = response.data.results.map((film) => ({
             title: film.title,
+            descrizione: film.overview,
             originalTitle: film.original_title,
             originalLanguage: film.original_language,
             dataUscita: film.release_date,

@@ -54,7 +54,6 @@ export default {
     languageChoosed: ["en-US"],
     myApiKey: "45a3f8865d6c27b9205f8865b3c94dfe",
     filmList: [],
-    homeFilm: [],
     searchContent: "",
     //
   }),
@@ -70,8 +69,15 @@ export default {
           `https://api.themoviedb.org/3/search/multi?api_key=${this.myApiKey}&language=${this.languageChoosed}&query=${this.searchContent}&include_adult=false`
         )
         .then((response) => {
+          this.filmList = response.data.results.map((film) => ({
+            title: film.title,
+            originalTitle: film.original_title,
+            originalLanguage: film.original_language,
+            dataUscita: film.release_date,
+            voto: film.vote_average,
+            image: film.backdrop_path,
+          }));
           // handle success
-          this.filmList = response.data;
           console.log(this.filmList);
         })
         .catch(function (error) {
@@ -82,27 +88,8 @@ export default {
     deleteSearch() {
       this.searchContent = "";
       this.filmList = [];
-      setTimeout(this.changeSearch, 1000);
     },
   },
   computed: {},
-  created: {
-    beforeSearch() {
-      const axios = require("axios");
-      axios
-        .get(
-          `https://api.themoviedb.org/3/discover/movie?api_key=45a3f8865d6c27b9205f8865b3c94dfe&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=100&with_watch_monetization_types=flatrate`
-        )
-        .then((response) => {
-          // handle success
-          this.homeFilm = response.data;
-          console.log(this.homeFilm);
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        });
-    },
-  },
 };
 </script>

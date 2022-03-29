@@ -1,8 +1,13 @@
 <template>
   <v-container>
     <v-row no-gutters>
-      <v-col v-for="(film, index) in filmList.results" :key="index">
-        <v-card :loading="loading" class="mx-auto my-12" max-width="374">
+      <v-col v-for="(film, index) in filmList" :key="index">
+        <v-card
+          v-show="film.image && film.title"
+          :loading="loading"
+          class="mx-auto my-12"
+          max-width="374"
+        >
           <template slot="progress">
             <v-progress-linear
               color="deep-purple"
@@ -13,7 +18,7 @@
 
           <v-img
             height="250"
-            :src="'https://image.tmdb.org/t/p/original/' + film.backdrop_path"
+            :src="'https://image.tmdb.org/t/p/original/' + film.image"
           ></v-img>
 
           <v-card-title>{{ film.title }}</v-card-title>
@@ -21,7 +26,7 @@
           <v-card-text>
             <v-row align="center" class="mx-0">
               <v-rating
-                :value="film.vote_average / 2"
+                :value="film.voto / 2"
                 color="amber"
                 dense
                 half-increments
@@ -29,12 +34,12 @@
                 size="14"
               ></v-rating>
 
-              <div class="grey--text ms-4">{{ film.vote_average / 2 }}</div>
+              <div class="grey--text ms-4">{{ film.voto / 2 }}</div>
             </v-row>
 
             <div class="my-4 text-subtitle-1">{{ film.release_date }}</div>
-            <div>{{ film.original_title }}</div>
-            <div>{{ film.original_language }}</div>
+            <div>{{ film.originalTitle }}</div>
+            <div>{{ film.originalLanguage }}</div>
 
             <!-- <div class="card-text">
             {{ film.overview }}
@@ -62,7 +67,10 @@ export default {
     loading: false,
     selection: 1,
   }),
-  props: { filmList: [Object, Array] },
+  props: {
+    filmList: [Object, Array],
+    title: [String],
+  },
 
   methods: {
     reserve() {

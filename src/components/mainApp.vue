@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <v-row no-gutters>
+    <v-row> </v-row>
+    <v-row v-if="this.filmList.length > 0" no-gutters>
       <v-col
         v-show="film.title && film.image"
         v-for="(film, index) in filmList"
@@ -16,19 +17,21 @@
             ></v-progress-linear>
           </template>
           <v-card-actions>
-            <v-btn color="dark lighten-2" text> Explore </v-btn>
+            <v-btn @click="openInfoWindow(index)" color="dark lighten-2" text>
+              Info
+            </v-btn>
 
             <v-spacer></v-spacer>
 
-            <v-btn icon @click="show = !show">
+            <v-btn icon @click="openInfoWindow(index)">
               <v-icon>{{
-                show ? "mdi-chevron-up" : "mdi-chevron-down"
+                activeIndex == film.id ? "mdi-chevron-up" : "mdi-chevron-down"
               }}</v-icon>
             </v-btn>
           </v-card-actions>
 
           <v-expand-transition>
-            <div v-show="show">
+            <div v-show="activeIndex == film.id" slot="back">
               <v-divider></v-divider>
 
               <v-card-text> {{ film.descrizione }} </v-card-text>
@@ -41,6 +44,7 @@
           ></v-img>
 
           <v-card-title>{{ film.title }}</v-card-title>
+          <v-divider class="mx-4"></v-divider>
 
           <v-card-text>
             <v-row align="center" class="mx-0">
@@ -68,50 +72,40 @@
             {{ film.overview }}
           </div> -->
           </v-card-text>
-
-          <v-divider class="mx-4"></v-divider>
-
-          <!-- <v-card-actions>
-          <v-btn color="deep-purple lighten-2" text @click="reserve">
-            Reserve
-          </v-btn>
-        </v-card-actions> -->
         </v-card>
       </v-col>
     </v-row>
+    <v-row v-else>SCHERMATA DI APERTURA</v-row>
   </v-container>
 </template>
 
 <script>
 export default {
   name: "mainApp",
-
   data: () => ({
-    show: false,
+    activeIndex: "",
     imageDimension: ["original"],
     loading: false,
     selection: 1,
   }),
   props: {
     filmList: [Object, Array],
-    search: [String],
   },
-
   methods: {
+    openInfoWindow(index) {
+      if (this.activeIndex == !this.filmList[index].id) {
+        this.activeIndex = this.filmList[index].id;
+      } else {
+        this.activeIndex = "";
+      }
+    },
+    // effetto card
     reserve() {
       this.loading = true;
-
       setTimeout(() => (this.loading = false), 2000);
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-$card-text: 150px;
-
-.card-text {
-  min-height: 150px;
-  max-height: 150px;
-  overflow-y: scroll;
-}
 </style>

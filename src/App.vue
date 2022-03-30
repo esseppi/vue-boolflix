@@ -40,7 +40,7 @@
     </v-app-bar>
 
     <v-main>
-      <mainApp :filmList="filmList" :search="filmList" />
+      <mainApp :filmList="filmList" />
     </v-main>
   </v-app>
 </template>
@@ -51,10 +51,11 @@ import mainApp from "./components/mainApp";
 export default {
   name: "App",
   data: () => ({
-    languageChoosed: ["en-US"],
+    languageChoosed: ["it-IT"],
     myApiKey: "45a3f8865d6c27b9205f8865b3c94dfe",
     filmList: [],
     searchContent: "",
+
     //
   }),
 
@@ -70,6 +71,7 @@ export default {
         )
         .then((response) => {
           this.filmList = response.data.results.map((film) => ({
+            id: film.id,
             title: film.title,
             descrizione: film.overview,
             originalTitle: film.original_title,
